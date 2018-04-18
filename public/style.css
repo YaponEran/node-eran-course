@@ -1,0 +1,19 @@
+.red{
+    color: red;
+}
+
+.box{
+    padding: 20px;
+}
+
+.gongda{
+    width: 45px;
+    height: 45px;
+    margin-right: 5px;
+}
+.bord{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid blue;
+}
