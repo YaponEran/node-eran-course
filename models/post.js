@@ -2,10 +2,13 @@ var mongoose = require('mongoose');
 
 var PostModel = mongoose.Schema({
     name:{
-        type: String
+        type: String,
+        require: true,
     },
     student:{
-        type:String
+        type:String,
+        require: true
+
     }
 });
 

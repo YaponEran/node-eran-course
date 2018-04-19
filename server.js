@@ -1,26 +1,20 @@
 const express = require('express');
 const path = require('path');
-const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
 const app = express();
 
-//Db Model
+//Db Model / db model
+var {mongoose} = require('./db/mongoose');
 const Posts = require('./models/post');
+const Todo = require('./models/todo');
 
-//Mongo db connection by url
-const mongoURI = 'mongodb://Erandal:12345@ds247499.mlab.com:47499/eranbase';
-mongoose.connect(mongoURI);
-var db = mongoose.connection;
-db.on('open', function(){
-    console.log('Db...')
-})
 //View Engine
-
 hbs.registerPartials(__dirname + '/views/partials')
 app.set('view engine', 'hbs');
 app.engine('hbs', hbs.__express);
+
 //Midelware
 app.use(bodyParser.json());
 app.use(bodyParser());
@@ -38,19 +32,17 @@ app.get('/', (req, res)=>{
     })
 });
 
-app.post('/test', (req, res)=>{
-    var post = new Posts({
-        name: req.body.name,
-        student:req.body.student
+
+app.post('/todo', (req, res)=>{
+    var todo = new Todo({
+        text: req.body.text
     });
-    post.save(function(err){
-        if(err){
-            console.log(err);
-            return;
-        }else{
-            res.redirect('/');
-        }
-    })
+
+    todo.save().then((doc)=>{
+        res.send(doc);
+    }, (e)=>{
+        res.status(404).send(e);
+    });
 });
 
 const port = process.env.PORT || 8080;
